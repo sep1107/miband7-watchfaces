@@ -4,7 +4,7 @@
 
 ## 下载表盘
 
-成品 `.bin` 文件已放在 GitHub Releases 中，主分支不再保存可安装成品文件。
+成品 `.bin` 文件已放在 GitHub Releases 中.
 
 - Release：`v1.0.0`
 - 下载页面：https://github.com/sep1107/miband-watchfaces/releases/tag/v1.0.0
