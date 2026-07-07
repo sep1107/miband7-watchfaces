@@ -1,1 +1,54 @@
-{"configVersion":"v2","app":{"appId":166210081,"appName":"TIME FLIES","appType":"watchface","version":{"code":1,"name":"1.0"},"icon":"images/preview_en.png","vender":"huami","description":"TIME FLIES"},"permissions":["gps"],"runtime":{"apiVersion":{"compatible":"1.0.0","target":"1.0.1","minVersion":"1.0.0"},"type":2},"device":{"targets":["gts"],"platforms":["nxp"]},"module":{"page":{"pages":["pages/index"],"window":{"navigationBarBackgroundColor":"#ffffff","navigationBarTextStyle":"black","navigationBarTitleText":"倒计时","backgroundColor":"#eeeeee","backgroundTextStyle":"light"}},"app-widget":{"widgets":["app-widget/index"]},"watch-widget":{"widgets":[]},"watchface":{"path":"watchface/index","main":1,"lockscreen":0},"app-side":{"path":"app-side/index"},"setting":{"path":"setting/index"}},"i18n":{"en-US":{"appName":"zepp","icon":"images/preview_en.png"},"zh-CN":{"icon":"images/preview_sc.png"},"zh-TW":{"icon":"images/preview_tc.png"}},"defaultLanguage":"en-US"}
+{
+  "configVersion": "v2",
+  "app": {
+    "appId": 166210081,
+    "appName": "TIME FLIES",
+    "appType": "watchface",
+    "version": {
+      "code": 1,
+      "name": "1.0"
+    },
+    "icon": "images/preview_en.png",
+    "vender": "huami",
+    "description": "TIME FLIES"
+  },
+  "permissions": [
+    "gps"
+  ],
+  "runtime": {
+    "apiVersion": {
+      "compatible": "1.0.0",
+      "target": "1.0.1",
+      "minVersion": "1.0.0"
+    },
+    "type": 2
+  },
+  "device": {
+    "targets": [
+      "gts"
+    ],
+    "platforms": [
+      "nxp"
+    ]
+  },
+  "module": {
+    "watchface": {
+      "path": "watchface/index",
+      "main": 1,
+      "lockscreen": 0
+    }
+  },
+  "i18n": {
+    "en-US": {
+      "appName": "zepp",
+      "icon": "images/preview_en.png"
+    },
+    "zh-CN": {
+      "icon": "images/preview_sc.png"
+    },
+    "zh-TW": {
+      "icon": "images/preview_tc.png"
+    }
+  },
+  "defaultLanguage": "en-US"
+}
