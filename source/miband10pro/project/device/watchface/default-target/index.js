@@ -22,11 +22,16 @@ try {
       { length: 10 },
       (_, value) => `${ASSET_ROOT}battery/${value}.png`
     );
+    const WEATHER_IMAGES = Array.from(
+      { length: 29 },
+      (_, value) => `${ASSET_ROOT}weather/${value}.png`
+    );
 
     let timeSensor;
     let stepSensor;
     let heartSensor;
     let batterySensor;
+    let weatherSensor;
 
     let hourTensImage;
     let hourOnesImage;
@@ -34,11 +39,13 @@ try {
     let minuteOnesImage;
     let weekImage;
     let batteryImage;
+    let weatherImage;
 
     let dateText;
     let stepsText;
     let heartText;
     let batteryText;
+    let weatherText;
     let festivalText;
 
     function pad2(value) {
@@ -102,6 +109,30 @@ try {
       setText(batteryText, `${Math.round(current)}%`);
     }
 
+    function updateWeather() {
+      if (!weatherSensor || !weatherImage || !weatherText) return;
+
+      try {
+        const weather = weatherSensor.getForecastWeather();
+        const forecast = weather && weather.forecastData;
+        const today = forecast && forecast.count > 0 && forecast.data
+          ? forecast.data[0]
+          : null;
+
+        if (!today) {
+          setText(weatherText, '--° / --°');
+          return;
+        }
+
+        const index = Math.max(0, Math.min(28, Number(today.index) || 0));
+        setImage(weatherImage, WEATHER_IMAGES[index]);
+        setText(weatherText, `${safeNumber(today.low)}° / ${safeNumber(today.high)}°`);
+      } catch (error) {
+        logger.log(`weather unavailable: ${error}`);
+        setText(weatherText, '--° / --°');
+      }
+    }
+
     function updateFestival() {
       if (!timeSensor) return;
       const festival = timeSensor.getShowFestival();
@@ -113,11 +144,13 @@ try {
       updateSteps();
       updateHeart();
       updateBattery();
+      updateWeather();
       updateFestival();
     }
 
     const minuteListener = function () {
       updateClock();
+      updateWeather();
       updateFestival();
     };
     const stepListener = function () {
@@ -226,24 +259,55 @@ try {
 
         hmUI.createWidget(hmUI.widget.TEXT, {
           x: PANEL_X + PANEL_PADDING,
-          y: 146,
+          y: 136,
           w: 160,
-          h: 24,
+          h: 22,
+          text: 'WEATHER',
+          color: '0xFF777777',
+          text_size: 13,
+          align_h: hmUI.align.LEFT,
+          align_v: hmUI.align.CENTER_V,
+          show_level: hmUI.show_level.ONLY_NORMAL
+        });
+        weatherImage = hmUI.createWidget(hmUI.widget.IMG, {
+          x: PANEL_X + PANEL_PADDING,
+          y: 162,
+          src: WEATHER_IMAGES[0],
+          show_level: hmUI.show_level.ONLY_NORMAL
+        });
+        weatherText = hmUI.createWidget(hmUI.widget.TEXT, {
+          x: PANEL_X + PANEL_PADDING + 58,
+          y: 166,
+          w: 104,
+          h: 34,
+          text: '--° / --°',
+          color: '0xFFFFFFFF',
+          text_size: 18,
+          align_h: hmUI.align.LEFT,
+          align_v: hmUI.align.CENTER_V,
+          show_level: hmUI.show_level.ONLY_NORMAL
+        });
+
+        hmUI.createWidget(hmUI.widget.TEXT, {
+          x: PANEL_X + PANEL_PADDING,
+          y: 222,
+          w: 160,
+          h: 22,
           text: 'STEPS',
           color: '0xFF777777',
-          text_size: 14,
+          text_size: 13,
           align_h: hmUI.align.LEFT,
           align_v: hmUI.align.CENTER_V,
           show_level: hmUI.show_level.ONLY_NORMAL
         });
         stepsText = hmUI.createWidget(hmUI.widget.TEXT, {
           x: PANEL_X + PANEL_PADDING,
-          y: 170,
+          y: 244,
           w: 160,
-          h: 42,
+          h: 36,
           text: '0',
           color: '0xFFFFFFFF',
-          text_size: 30,
+          text_size: 27,
           align_h: hmUI.align.LEFT,
           align_v: hmUI.align.CENTER_V,
           show_level: hmUI.show_level.ONLY_NORMAL
@@ -251,24 +315,24 @@ try {
 
         hmUI.createWidget(hmUI.widget.TEXT, {
           x: PANEL_X + PANEL_PADDING,
-          y: 232,
+          y: 294,
           w: 160,
-          h: 24,
+          h: 22,
           text: 'HEART',
           color: '0xFF777777',
-          text_size: 14,
+          text_size: 13,
           align_h: hmUI.align.LEFT,
           align_v: hmUI.align.CENTER_V,
           show_level: hmUI.show_level.ONLY_NORMAL
         });
         heartText = hmUI.createWidget(hmUI.widget.TEXT, {
           x: PANEL_X + PANEL_PADDING,
-          y: 256,
+          y: 316,
           w: 160,
-          h: 42,
+          h: 36,
           text: '--',
           color: '0xFFFFFFFF',
-          text_size: 30,
+          text_size: 27,
           align_h: hmUI.align.LEFT,
           align_v: hmUI.align.CENTER_V,
           show_level: hmUI.show_level.ONLY_NORMAL
@@ -276,30 +340,30 @@ try {
 
         hmUI.createWidget(hmUI.widget.TEXT, {
           x: PANEL_X + PANEL_PADDING,
-          y: 318,
+          y: 366,
           w: 160,
-          h: 24,
+          h: 22,
           text: 'BATTERY',
           color: '0xFF777777',
-          text_size: 14,
+          text_size: 13,
           align_h: hmUI.align.LEFT,
           align_v: hmUI.align.CENTER_V,
           show_level: hmUI.show_level.ONLY_NORMAL
         });
         batteryImage = hmUI.createWidget(hmUI.widget.IMG, {
           x: PANEL_X + PANEL_PADDING,
-          y: 352,
+          y: 396,
           src: BATTERY_IMAGES[0],
           show_level: hmUI.show_level.ONLY_NORMAL
         });
         batteryText = hmUI.createWidget(hmUI.widget.TEXT, {
           x: PANEL_X + PANEL_PADDING + 60,
-          y: 344,
+          y: 388,
           w: 92,
-          h: 40,
+          h: 38,
           text: '--%',
           color: '0xFFFFFFFF',
-          text_size: 22,
+          text_size: 21,
           align_h: hmUI.align.LEFT,
           align_v: hmUI.align.CENTER_V,
           show_level: hmUI.show_level.ONLY_NORMAL
@@ -307,12 +371,12 @@ try {
 
         festivalText = hmUI.createWidget(hmUI.widget.TEXT, {
           x: PANEL_X + PANEL_PADDING,
-          y: 414,
+          y: 440,
           w: 160,
-          h: 32,
+          h: 28,
           text: '',
           color: '0xFFD5D4D4',
-          text_size: 18,
+          text_size: 16,
           align_h: hmUI.align.LEFT,
           align_v: hmUI.align.CENTER_V,
           show_level: hmUI.show_level.ONLY_NORMAL
@@ -322,6 +386,7 @@ try {
         stepSensor = hmSensor.createSensor(hmSensor.id.STEP);
         heartSensor = hmSensor.createSensor(hmSensor.id.HEART);
         batterySensor = hmSensor.createSensor(hmSensor.id.BATTERY);
+        weatherSensor = hmSensor.createSensor(hmSensor.id.WEATHER);
 
         timeSensor.addEventListener(timeSensor.event.MINUTEEND, minuteListener);
         stepSensor.addEventListener(hmSensor.event.CHANGE, stepListener);
