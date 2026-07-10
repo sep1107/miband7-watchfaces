@@ -1,0 +1,40 @@
+{
+  "configVersion": "v2",
+  "app": {
+    "appIdType": 0,
+    "appId": 166210081,
+    "appName": "TIME FLIES - Mi Band 10",
+    "appType": "watchface",
+    "version": {
+      "code": 1,
+      "name": "0.1.0"
+    },
+    "vender": "sep1107",
+    "description": "TIME FLIES adaptation scaffold for Xiaomi Smart Band 10"
+  },
+  "permissions": [],
+  "runtime": {
+    "apiVersion": {
+      "compatible": "1.0.0",
+      "target": "1.0.1",
+      "minVersion": "1.0.0"
+    }
+  },
+  "defaultLanguage": "en-US",
+  "debug": true,
+  "module": {
+    "watchface": {
+      "path": "watchface/default-target/index",
+      "main": 1,
+      "editable": 0,
+      "lockscreen": 0,
+      "hightCost": 0
+    }
+  },
+  "designWidth": 212,
+  "notes": {
+    "targetResolution": "212x520",
+    "deviceSource": "TODO: verify before build",
+    "status": "development scaffold; not yet buildable"
+  }
+}
