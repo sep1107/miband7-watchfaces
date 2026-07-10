@@ -1,0 +1,42 @@
+name: Validate watchface source
+
+on:
+  push:
+    paths:
+      - 'source/miband10pro/**'
+      - '.github/workflows/validate-watchface.yml'
+  pull_request:
+    paths:
+      - 'source/miband10pro/**'
+      - '.github/workflows/validate-watchface.yml'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Validate source checkout
+        run: |
+          python source/miband10pro/tools/validate_project.py source/miband10pro/project --source-only
+
+      - name: Test app.json generation path
+        run: |
+          python source/miband10pro/tools/build_app_json.py \
+            source/miband10pro/project/device/app.json.example \
+            /tmp/app.json \
+            --platform-name UNVERIFIED-CI \
+            --device-source 1 \
+            --design-width 400
+          python -m json.tool /tmp/app.json >/dev/null
