@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "device": {
     "marketingName": "Xiaomi Smart Band 10 Pro",
     "localizedName": "小米手环10 Pro",
@@ -7,40 +7,40 @@
     "operatingSystem": "Xiaomi HyperOS",
     "osVersion": "3.101.030"
   },
+  "watchfaceTarget": {
+    "deviceType": "P67",
+    "watchOS": "vela",
+    "width": 336,
+    "height": 480,
+    "resolutionCode": "XMHD03",
+    "packet": "BIN",
+    "region": "CN",
+    "capabilityProtocol": "1.9.4",
+    "imageFormat": "indexed8",
+    "imageCompression": true,
+    "compressMethod": "RLEReversed"
+  },
   "evidence": {
     "date": "2026-07-11",
-    "source": "user-provided real-device photographs",
+    "sources": [
+      "user-provided real-device photographs",
+      "user-provided Mi Fitness watchface cache export"
+    ],
     "photosCommitted": false,
-    "privacyNote": "Bluetooth address, serial number and account data are not stored"
+    "originalPackageCommitted": false,
+    "privacyNote": "Bluetooth address, serial number, account data, logs, photographs, official artwork and the original compiled package are not stored"
   },
-  "displayObservation": {
-    "orientation": "portrait",
-    "formFactor": "wide rectangular band display with rounded corners",
-    "exactPixelResolution": null,
-    "resolutionStatus": "not determined from photographs"
+  "packageBaseline": {
+    "packageName": "120917384229",
+    "watchfaceVersion": "1.0.12",
+    "resourceBinMagic": "0x1234A55A",
+    "themeCount": 3,
+    "editable": true
   },
-  "watchfaceCapabilitiesObserved": [
-    "air quality",
-    "weather condition and temperature",
-    "battery percentage",
-    "12-hour time and AM/PM",
-    "lunar date",
-    "Gregorian date and weekday",
-    "health-cycle information",
-    "alarm shortcut",
-    "Alipay shortcut",
-    "settings shortcut",
-    "sleep shortcut",
-    "calories",
-    "distance",
-    "steps",
-    "heart rate",
-    "goal progress"
-  ],
   "compatibilityStatus": {
     "deviceExistsAndModelVerified": true,
-    "packageFormatVerified": false,
-    "deviceSourceVerified": false,
-    "installableCustomWatchfaceVerified": false
+    "officialPackageTargetVerified": true,
+    "officialCanvasVerified": true,
+    "customBuildAcceptedByDevice": false
   }
 }
