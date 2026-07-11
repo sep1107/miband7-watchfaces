@@ -30,6 +30,8 @@ miband-watchfaces/
         ├── MICREATE_FORMAT.md
         ├── micreate-probe/
         ├── reference/
+        │   └── real-device/
+        │       └── M2551B1.json
         ├── project/
         │   ├── PACKAGE_INSPECTION.md
         │   └── targets/
@@ -39,7 +41,18 @@ miband-watchfaces/
 
 ## Xiaomi Smart Band 10 Pro 开发状态
 
-当前研究版本为 `v0.7.1`。项目对候选目标采用三类独立证据：
+当前研究版本为 `v0.7.2`。用户提供的实机照片已经确认：
+
+```text
+设备：小米手环10 Pro
+型号：M2551B1
+系统：Xiaomi HyperOS
+OS 版本：3.101.030
+```
+
+原始照片不提交到仓库，只保存非敏感设备事实。
+
+项目对候选目标采用三类独立证据：
 
 - 屏幕或画布硬件证据。
 - 编辑器与编译链证据。
@@ -47,8 +60,8 @@ miband-watchfaces/
 
 当前候选：
 
-- `compat-336x480`：Mi Band 8/9 Pro 的 MiCreate 构建链参考更强，但不是 10 Pro 真机证明。
-- `experimental-400x480`：与当前 10 Pro 宽屏报道更接近，但没有公开编译器目标或包元数据。
+- `compat-336x480`：Mi Band 8/9 Pro 的 MiCreate 构建链参考更强，实机屏幕比例也提供视觉支持，但不是 10 Pro 安装证明。
+- `experimental-400x480`：对应发布前报道的面板参数，但没有公开编译器目标或包元数据。
 
 目前源码已实现图片时间、日期、星期、天气、步数、心率、电量和节日信息，并加入：
 
@@ -60,8 +73,11 @@ miband-watchfaces/
 - GitHub Actions 自动检查全部候选 profile
 - MiCreate `.fprj` 格式探针
 - 递归表盘包检查器，可读取 ZIP、嵌套 `.zpk`、JSON/XML、PNG/TGA 和设备标识
+- 真实设备记录 `M2551B1.json`
 
-Smart Band 10 Pro 已于 2026 年 5 月公开发布，但目前仍未获得正式 SDK、已验证的编译目标、原厂表盘包或真机安装结果。因此当前项目是研究与开发源码，不是可安装成品。
+下一关键步骤是从这台实机配套的 Mi Fitness 中取得一个原厂或第三方表盘包。拿到后即可检查真实画布、`deviceSource`、`DeviceType` 和包格式。
+
+当前项目仍是研究与开发源码，不是可安装成品。
 
 ## 文件信息
 
