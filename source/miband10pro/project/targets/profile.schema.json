@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/sep1107/miband-watchfaces/source/miband10pro/project/targets/profile.schema.json",
-  "title": "TIME FLIES Smart Band target profile",
+  "title": "TIME FLIES Smart Band 10 Pro target profile",
   "type": "object",
   "required": [
     "schemaVersion",
@@ -13,4 +13,108 @@
     "status",
     "evidence"
   ],
-  "
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]+$" },
+    "width": { "const": 336 },
+    "height": { "const": 480 },
+    "panelX": { "type": "integer", "minimum": 1, "maximum": 335 },
+    "panelPadding": { "type": "integer", "minimum": 0 },
+    "status": {
+      "enum": [
+        "reference-build-chain",
+        "verified-official-package",
+        "verified-custom-build-target"
+      ]
+    },
+    "platform": {
+      "type": "object",
+      "required": [
+        "deviceModel",
+        "deviceType",
+        "watchOS",
+        "protocol",
+        "resolutionCode",
+        "packet",
+        "region",
+        "imageFormat",
+        "imageCompression",
+        "compressMethod"
+      ],
+      "properties": {
+        "deviceModel": { "type": "string", "minLength": 1 },
+        "deviceType": { "type": "string", "minLength": 1 },
+        "watchOS": { "type": "string", "minLength": 1 },
+        "protocol": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+        "resolutionCode": { "type": "string", "minLength": 1 },
+        "packet": { "type": "string", "minLength": 1 },
+        "region": { "type": "string", "minLength": 1 },
+        "imageFormat": { "type": "string", "minLength": 1 },
+        "imageCompression": { "type": "boolean" },
+        "compressMethod": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    },
+    "evidence": {
+      "type": "object",
+      "required": ["hardware", "buildChain", "deviceTarget", "sources"],
+      "properties": {
+        "hardware": { "enum": ["none", "indirect", "reported", "official"] },
+        "buildChain": { "enum": ["none", "reference", "tested"] },
+        "deviceTarget": {
+          "enum": [
+            "unverified",
+            "reference-only",
+            "official-package-verified",
+            "custom-build-verified"
+          ]
+        },
+        "sources": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      },
+      "additionalProperties": false
+    },
+    "artifact": {
+      "type": "object",
+      "required": [
+        "packageName",
+        "watchfaceVersion",
+        "packageSha256",
+        "resourceBinSha256",
+        "resourceBinMagic",
+        "themeCount",
+        "editable"
+      ],
+      "properties": {
+        "packageName": { "type": "string", "minLength": 1 },
+        "watchfaceVersion": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+        "packageSha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "resourceBinSha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "resourceBinMagic": { "const": "0x1234A55A" },
+        "themeCount": { "type": "integer", "minimum": 1 },
+        "editable": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "notes": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "enum": ["verified-official-package", "verified-custom-build-target"]
+          }
+        }
+      },
+      "then": { "required": ["platform", "artifact"] }
+    }
+  ],
+  "additionalProperties": false
+}
