@@ -24,7 +24,7 @@ The package independently confirms the following values:
 | Image compression | enabled | `description.xml` |
 | Manifest compression | `RLEReversed` | `manifest.xml` |
 
-This supersedes the earlier 400x480 media-report candidate and the Mi Band 8/9 Pro `DeviceType=11` assumption for the Smart Band 10 Pro target.
+The verified P67 metadata replaces all earlier screen-size guesses and related-device target assumptions.
 
 ## Watchface identity
 
