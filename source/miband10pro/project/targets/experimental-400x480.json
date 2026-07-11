@@ -1,12 +1,23 @@
 {
+  "schemaVersion": 1,
   "id": "experimental-400x480",
   "width": 400,
   "height": 480,
   "panelX": 198,
   "panelPadding": 22,
-  "confidence": "low",
-  "basis": [
-    "Some 2026 media reports state 480x400",
-    "No public compiler package or device metadata confirms this canvas"
+  "status": "reported-hardware",
+  "evidence": {
+    "hardware": "reported",
+    "buildChain": "none",
+    "deviceTarget": "unverified",
+    "sources": [
+      "Xiaomi Smart Band 10 Pro was publicly launched in May 2026 with a 1.74-inch AMOLED display",
+      "Pre-launch reporting described the panel as 480x400",
+      "No public EasyFace, MiCreate, deviceSource or stock-watchface metadata has confirmed this canvas"
+    ]
+  },
+  "notes": [
+    "This profile represents the strongest current hardware-layout candidate.",
+    "It must not be treated as an installable compiler target until package metadata is verified."
   ]
 }
