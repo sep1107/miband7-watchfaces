@@ -1,6 +1,6 @@
 # Source
 
-这个目录保存表盘开发相关的配置、编译组件和适配工程。
+这个目录保存表盘开发配置、编译组件和适配工程。
 
 ```text
 source/
@@ -8,19 +8,14 @@ source/
 ├── app.json
 ├── app.bin
 └── miband10pro/
-    ├── README.md
-    ├── reference/
-    │   ├── amazfit-band7/
-    │   └── mi-band-9-pro/
-    ├── project/
-    │   └── targets/
-    └── tools/
+    ├── reference/real-device/P67-baseline/
+    ├── project/targets/p67-336x480.json
+    └── tools/extract_p67_profile.py
 ```
 
-- `app.json`、`app.bin`：原 TIME FLIES 表盘保留的核心配置和编译组件，并不是完整可重新编译工程。
-- `miband10pro/reference/amazfit-band7/`：Zepp OS API 和工程结构参考。
-- `miband10pro/reference/mi-band-9-pro/`：更接近 Pro 宽屏产品的 MiCreate 工程与元数据研究。
-- `miband10pro/project/`：Xiaomi Smart Band 10 Pro 双目标开发工程。
-- `miband10pro/tools/`：素材转换、项目校验、配置生成和目标切换工具。
+- `app.json`、`app.bin`：原 TIME FLIES 表盘保留的核心文件，不是 Smart Band 10 Pro 的 P67 编译输入。
+- `miband10pro/reference/real-device/`：真实 M2551B1 设备信息和脱敏 P67 包基准。
+- `miband10pro/project/`：336×480 布局原型、P67 目标 profile 和格式研究。
+- `miband10pro/tools/`：资源处理、P67 元数据提取、项目校验和包检查工具。
 
-当前主要候选画布为 `336 × 480`，并保留 `400 × 480` 实验配置。最终目标仍须由 Smart Band 10 Pro 的正式 SDK、已知可用表盘包或真机确认。
+Smart Band 10 Pro 的唯一正式目标为 `P67 / vela / 336×480 / BIN`。
