@@ -1,89 +1,57 @@
-# TIME FLIES — Xiaomi Smart Band 10 Pro research project
+# TIME FLIES — Xiaomi Smart Band 10 Pro P67 project
 
-## v0.7.2：真机身份已确认
+## v0.8.0 目标
 
-用户提供的实机照片已经确认：
-
-```text
-设备：小米手环10 Pro / Xiaomi Smart Band 10 Pro
-型号：M2551B1
-系统：Xiaomi HyperOS
-OS 版本：3.101.030
-```
-
-照片本身不提交到仓库，只保存推导出的非敏感设备信息。结构化记录位于：
+项目唯一正式目标是：
 
 ```text
-reference/real-device/M2551B1.json
+M2551B1 / P67 / vela / 336x480 / XMHD03 / BIN
 ```
 
-这解决了“目标设备到底是什么”的问题，但尚未解决表盘包格式、`deviceSource`、MiCreate `DeviceType` 和真机安装兼容性。
+这一结论来自真实设备和 Mi Fitness 表盘缓存，而不是媒体规格或相关型号推断。
 
-## 目标证据分层
+## 已验证的官方包结构
 
-项目不会把“屏幕规格”“可用编译链”和“真机兼容性”混为一谈。
+```text
+capability.json
+├── protocol = 1.9.4
+├── resolution = XMHD03
+├── region = CN
+└── packet = BIN
 
-每个 target profile 分别记录：
+description.xml
+├── deviceType = P67
+├── size = 336x480
+├── watchOS = vela
+├── imageFormat = indexed8
+└── imageCompression = true
 
-- `hardware`：屏幕或画布证据。
-- `buildChain`：编辑器或编译链证据。
-- `deviceTarget`：Smart Band 10 Pro 是否接受生成包的证据。
+manifest.xml
+├── width = 336
+├── height = 480
+├── compressMethod = RLEReversed
+└── editable = true
 
-只有 `deviceTarget: verified` 的配置，才能称为已验证的 10 Pro 构建目标。
-
-## 当前候选配置
-
-| Profile | Canvas | 主要价值 | 关键限制 |
-| --- | --- | --- | --- |
-| `compat-336x480` | 336×480 | Mi Band 8/9 Pro 的 MiCreate 构建链已有真机参考；实机照片的屏幕比例也更接近该候选 | 还没有 10 Pro 安装验证 |
-| `experimental-400x480` | 400×480 | 对应发布前报道的 480×400 面板数据 | 没有公开编译器目标或包元数据 |
-
-默认仍使用 `compat-336x480`，因为它拥有更强的构建链证据；照片只提供视觉支持，不能单独证明真实像素分辨率。
-
-## 当前功能
-
-- 原 TIME FLIES 图片小时和分钟。
-- 日期和星期图片。
-- 天气图标及当天最低、最高温。
-- 步数、最近心率和十级电量图片。
-- 支持时显示中文节日或节气。
-- 157 个经过验证的 RGBA PNG 素材。
-- 项目校验器、`app.json` 生成器和目标配置切换器。
-- MiCreate `.fprj` 格式探针与生成器。
-- GitHub Actions 自动语法、结构、profile 和包检查。
-- 递归表盘包检查器。
-
-## 表盘包检查器
-
-```bash
-python tools/inspect_watchface_package.py package.face \
-  --json package-report.json \
-  --markdown package-report.md
+resource.bin
+├── magic = 0x1234A55A
+├── embedded package ID = 120917384229
+└── theme count = 3
 ```
 
-它支持 ZIP 型 `.bin`、`.zpk`、嵌套 ZIP、MiCreate `.fprj/.info/.face`、JSON/XML、PNG/TGA，并会寻找：
+## 当前代码定位
 
-- `deviceSource`
-- `DeviceType`
-- `DeviceVersion`
-- `designWidth`
-- 型号名、HyperOS、Zepp、MiCreate、EasyFace、`gts`、`nxp`
+`device/` 下的 JavaScript 工程是布局和数据展示原型，不是 P67 编译器输入。P67 工作集中在：
 
-## 当前最关键的下一步
+- `targets/p67-336x480.json`
+- `REAL_DEVICE_PACKAGE.md`
+- `../reference/real-device/P67-baseline/`
+- `../tools/extract_p67_profile.py`
+- `../tools/validate_target_profiles.py`
 
-从这台型号为 `M2551B1`、系统为 HyperOS `3.101.030` 的真机配套 Mi Fitness 中取得一个表盘包或缓存文件。拿到后，现有检查器可以直接判断：
+## 下一里程碑
 
-- 是否为 `.face`、`.bin`、`.zpk` 或其他格式；
-- 实际画布尺寸；
-- 设备型号和平台标识；
-- 是否沿用 Mi Band 8/9 Pro 的 `DeviceType=11`；
-- 是否需要 EasyFace、MiCreate 或另一套工具链。
-
-## 当前状态
-
-这是开发源码，不是可安装的 Smart Band 10 Pro 表盘。已经确认真实设备型号与系统版本，但仍缺：
-
-- 原厂或第三方 10 Pro 表盘包；
-- 可确认的 `deviceSource` / `DeviceType`；
-- MiCreate 或 EasyFace 在 Windows 上的实际构建结果；
-- 真机安装测试。
+1. 完整解析 `resource.bin` 的主题表、记录表和资源地址；
+2. 将 TIME FLIES 素材转换为 `indexed8`；
+3. 实现 `RLEReversed` 编码；
+4. 生成最小单主题 P67 BIN；
+5. 在 M2551B1 真机上测试安装。
