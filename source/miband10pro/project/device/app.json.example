@@ -6,11 +6,11 @@
     "appName": "TIME FLIES - Smart Band 10 Pro",
     "appType": "watchface",
     "version": {
-      "code": 10,
-      "name": "0.8.0"
+      "code": 11,
+      "name": "0.8.1"
     },
     "vender": "sep1107",
-    "description": "P67/336x480 Smart Band 10 Pro research project with verified official-package metadata"
+    "description": "P67/336x480 research project with verified header, extended theme tables and record tables"
   },
   "permissions": [],
   "runtime": {
@@ -45,6 +45,9 @@
     "targetResolutionCode": "XMHD03",
     "targetPacket": "BIN",
     "verifiedDeviceOS": "Xiaomi HyperOS 3.101.030",
+    "binaryHeaderSize": 168,
+    "binaryThemeSize": 176,
+    "binaryRecordSize": 16,
     "status": "legacy Zepp OS layout prototype only; P67 BIN generation is a separate toolchain"
   }
 }
