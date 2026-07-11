@@ -1,0 +1,50 @@
+name: Validate Band 10 Pro source
+
+on:
+  push:
+    paths:
+      - 'source/miband10pro/**'
+      - '.github/workflows/validate-band10pro.yml'
+  pull_request:
+    paths:
+      - 'source/miband10pro/**'
+      - '.github/workflows/validate-band10pro.yml'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Validate source checkout
+        run: >-
+          python source/miband10pro/tools/validate_project.py
+          source/miband10pro/project --source-only
+      - name: Compile Python helpers
+        run: >-
+          python -m py_compile
+          source/miband10pro/tools/validate_project.py
+          source/miband10pro/tools/build_app_json.py
+          source/miband10pro/tools/apply_target_profile.py
+          source/miband10pro/tools/build_micreate_probe.py
+      - name: Test target config generation
+        run: |
+          python source/miband10pro/tools/build_app_json.py \
+            source/miband10pro/project/device/app.json.example \
+            /tmp/app.json \
+            --platform-name FORMAT-PROBE \
+            --device-source 11 \
+            --design-width 336
+          python -m json.tool /tmp/app.json >/dev/null
+      - name: Parse MiCreate format probe
+        run: |
+          python - <<'PY'
+          import xml.etree.ElementTree as ET
+          ET.parse('source/miband10pro/micreate-probe/TimeFlies_ProProbe.fprj')
+          print('MiCreate probe XML is well formed')
+          PY
