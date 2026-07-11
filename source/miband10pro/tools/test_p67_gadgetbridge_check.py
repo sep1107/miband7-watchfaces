@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import struct
+from pathlib import Path
 
 from p67_gadgetbridge_check import inspect
 
@@ -26,6 +27,38 @@ def localized_probe() -> bytes:
     struct.pack_into("<I", data, 0x74, table_offset)
     struct.pack_into("<I", data, 0x78, len(table))
     return bytes(data)
+
+
+def assert_ios_probe_is_read_only() -> None:
+    swift_path = (
+        Path(__file__).resolve().parents[1]
+        / "ios-probe"
+        / "P67ReadOnlyProbe.swift"
+    )
+    swift = swift_path.read_text(encoding="utf-8")
+
+    required = [
+        "discoverServices",
+        "discoverCharacteristics",
+        "Xiaomi Smart Band 10 Pro",
+        "0000FE95",
+        "0000005E",
+        "0000005F",
+    ]
+    for token in required:
+        assert token in swift, f"missing iPhone probe token: {token}"
+
+    forbidden = [
+        ".writeValue(",
+        ".setNotifyValue(",
+        "sendEncryptedCommand",
+        "watchfaceInstall",
+        "DataUploadService",
+        "setActive(",
+        "deleteWatchface",
+    ]
+    for token in forbidden:
+        assert token not in swift, f"iPhone probe is no longer read-only: {token}"
 
 
 def main() -> int:
@@ -54,7 +87,8 @@ def main() -> int:
     invalid_i18n = inspect(bytes(broken_i18n))
     assert "localized name table is outside the file" in invalid_i18n["errors"]
 
-    print("P67 Gadgetbridge compatibility checker tests passed")
+    assert_ios_probe_is_read_only()
+    print("P67 Gadgetbridge checker and iPhone read-only guard passed")
     return 0
 
 
