@@ -21,17 +21,41 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+
       - name: Validate source checkout
         run: >-
           python source/miband10pro/tools/validate_project.py
           source/miband10pro/project --source-only
+
+      - name: Validate target evidence profiles
+        run: >-
+          python source/miband10pro/tools/validate_target_profiles.py
+          source/miband10pro/project/targets
+
       - name: Compile Python helpers
         run: >-
           python -m py_compile
           source/miband10pro/tools/validate_project.py
+          source/miband10pro/tools/validate_target_profiles.py
           source/miband10pro/tools/build_app_json.py
           source/miband10pro/tools/apply_target_profile.py
           source/miband10pro/tools/build_micreate_probe.py
+
+      - name: Test every target profile
+        shell: bash
+        run: |
+          set -euo pipefail
+          for profile in source/miband10pro/project/targets/*.json; do
+            if [[ "$(basename "$profile")" == "profile.schema.json" ]]; then
+              continue
+            fi
+            workdir="$(mktemp -d)"
+            cp -R source/miband10pro/project/. "$workdir/"
+            python source/miband10pro/tools/apply_target_profile.py "$workdir" "$profile"
+            python source/miband10pro/tools/validate_project.py "$workdir" --source-only
+            rm -rf "$workdir"
+          done
+
       - name: Test target config generation
         run: |
           python source/miband10pro/tools/build_app_json.py \
@@ -41,6 +65,7 @@ jobs:
             --device-source 11 \
             --design-width 336
           python -m json.tool /tmp/app.json >/dev/null
+
       - name: Parse MiCreate format probe
         run: |
           python - <<'PY'
