@@ -48,6 +48,8 @@ jobs:
           source/miband10pro/tools/extract_p67_profile.py
           source/miband10pro/tools/check_no_legacy_canvas.py
           source/miband10pro/tools/test_p67_resource_header.py
+          source/miband10pro/tools/inspect_p67_binary.py
+          source/miband10pro/tools/test_p67_binary_layout.py
 
       - name: Validate source checkout
         run: >-
@@ -96,6 +98,10 @@ jobs:
       - name: Test P67 resource.bin header parser
         run: >-
           python source/miband10pro/tools/test_p67_resource_header.py
+
+      - name: Test P67 extended theme and record tables
+        run: >-
+          python source/miband10pro/tools/test_p67_binary_layout.py
 
       - name: Apply P67 geometry to legacy visual prototype
         shell: bash
