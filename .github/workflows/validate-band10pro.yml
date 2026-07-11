@@ -54,6 +54,8 @@ jobs:
           source/miband10pro/tools/test_p67_image_codec.py
           source/miband10pro/tools/p67_minimal_builder.py
           source/miband10pro/tools/test_p67_minimal_builder.py
+          source/miband10pro/tools/p67_probe_package.py
+          source/miband10pro/tools/test_p67_probe_package.py
 
       - name: Validate source checkout
         run: >-
@@ -137,6 +139,21 @@ jobs:
           print('Generated minimal P67 resource passed reverse inspection')
           PY
           test -s /tmp/p67-minimal-report.md
+
+      - name: Test complete P67 probe package scaffold
+        run: |
+          python source/miband10pro/tools/test_p67_probe_package.py
+          python source/miband10pro/tools/p67_probe_package.py \
+            /tmp/p67-probe-package \
+            --zip /tmp/p67-probe-package.zip
+          test -s /tmp/p67-probe-package/resource.bin
+          test -s /tmp/p67-probe-package/manifest.xml
+          test -s /tmp/p67-probe-package/description.xml
+          test -s /tmp/p67-probe-package.zip
+          python source/miband10pro/tools/inspect_p67_binary.py \
+            /tmp/p67-probe-package/resource.bin \
+            --json /tmp/p67-probe-resource-report.json
+          python -m json.tool /tmp/p67-probe-resource-report.json > /dev/null
 
       - name: Apply P67 geometry to legacy visual prototype
         shell: bash
