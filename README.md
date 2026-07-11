@@ -18,6 +18,7 @@
 ```text
 miband-watchfaces/
 ├── README.md
+├── .github/workflows/validate-watchface.yml
 └── source/
     ├── README.md
     ├── app.json
@@ -25,28 +26,23 @@ miband-watchfaces/
     └── miband10pro/
         ├── README.md
         ├── reference/
-        │   └── amazfit-band7/
+        │   ├── amazfit-band7/
+        │   └── mi-band-9-pro/
         ├── project/
+        │   └── targets/
         └── tools/
 ```
 
-- `source/app.json`、`source/app.bin`：原 TIME FLIES 表盘保留下来的核心配置和编译组件。
-- `source/miband10pro/reference/`：保存拆出的 Zepp OS 参考工程。
-- `source/miband10pro/project/`：Xiaomi Smart Band 10 Pro 表盘开发工程。
-- `source/miband10pro/tools/`：资源转换与构建辅助工具。
-
 ## Xiaomi Smart Band 10 Pro 开发状态
 
-本项目按你指定的 Xiaomi Smart Band 10 Pro 作为目标设备继续开发。由于尚未获得可核实的正式 SDK、`deviceSource` 和编译配置，当前开发画布暂用 `400 × 480`，并保留切换为其他方向或尺寸的能力。
+当前开发版本为 `v0.6.0`。项目不再把媒体报道的 `400 × 480` 当成唯一默认值，而是采用双目标配置：
 
-目前源码已接入时间、日期、步数、心率、电量和节日信息；TIME FLIES 图片资源已开始按宽屏双栏布局迁移。
+- `compat-336x480`：主要兼容候选，依据是真机验证过的 Mi Band 9 Pro MiCreate 工程。
+- `experimental-400x480`：保留用于对比媒体报道中的面板参数。
 
-## 使用说明
+目前源码已实现图片时间、日期、星期、天气、步数、心率、电量和节日信息，并加入目标配置切换、项目校验和 GitHub Actions 自动检查。
 
-1. 打开 Releases 页面。
-2. 下载对应设备的 `.bin` 文件。
-3. 使用支持该设备和包格式的工具进行安装。
-4. 安装前建议先备份原表盘文件。
+> 仍未获得 Smart Band 10 Pro 的正式 SDK、`deviceSource`、官方表盘包或真机验证，因此当前项目是研究与开发源码，不是可安装成品。
 
 ## 文件信息
 
