@@ -1,0 +1,12 @@
+{
+  "id": "experimental-400x480",
+  "width": 400,
+  "height": 480,
+  "panelX": 198,
+  "panelPadding": 22,
+  "confidence": "low",
+  "basis": [
+    "Some 2026 media reports state 480x400",
+    "No public compiler package or device metadata confirms this canvas"
+  ]
+}
