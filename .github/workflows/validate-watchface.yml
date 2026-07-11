@@ -27,9 +27,21 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Validate source checkout
+      - name: Validate default source profile
         run: |
           python source/miband10pro/tools/validate_project.py source/miband10pro/project --source-only
+
+      - name: Test both target profiles
+        run: |
+          cp -R source/miband10pro/project /tmp/watchface-profile-test
+          python source/miband10pro/tools/apply_target_profile.py \
+            /tmp/watchface-profile-test \
+            source/miband10pro/project/targets/compat-336x480.json
+          python source/miband10pro/tools/validate_project.py /tmp/watchface-profile-test --source-only
+          python source/miband10pro/tools/apply_target_profile.py \
+            /tmp/watchface-profile-test \
+            source/miband10pro/project/targets/experimental-400x480.json
+          python source/miband10pro/tools/validate_project.py /tmp/watchface-profile-test --source-only
 
       - name: Test app.json generation path
         run: |
@@ -38,5 +50,5 @@ jobs:
             /tmp/app.json \
             --platform-name UNVERIFIED-CI \
             --device-source 1 \
-            --design-width 400
+            --design-width 336
           python -m json.tool /tmp/app.json >/dev/null
