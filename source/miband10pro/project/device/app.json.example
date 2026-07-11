@@ -6,11 +6,11 @@
     "appName": "TIME FLIES - Smart Band 10 Pro",
     "appType": "watchface",
     "version": {
-      "code": 7,
-      "name": "0.7.0"
+      "code": 8,
+      "name": "0.7.1"
     },
     "vender": "sep1107",
-    "description": "Evidence-classified dual-profile TIME FLIES research project for Xiaomi Smart Band 10 Pro"
+    "description": "Evidence-classified TIME FLIES research project with recursive package inspection for Xiaomi Smart Band 10 Pro"
   },
   "permissions": [],
   "runtime": {
@@ -42,7 +42,7 @@
     "alternateTargetProfile": "experimental-400x480",
     "alternateCanvas": "400x480",
     "deviceSource": "TODO: verify with an official or proven Smart Band 10 Pro compiler profile",
-    "packageFormat": "TODO: verify target firmware package format",
-    "status": "validated research source; not installable"
+    "packageFormat": "TODO: inspect a real Smart Band 10 Pro package",
+    "status": "validated research source with package inspector; not installable"
   }
 }
