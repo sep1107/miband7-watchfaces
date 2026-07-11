@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<watch>
+  <shape>square</shape>
+  <name>效率时刻</name>
+  <deviceType>P67</deviceType>
+  <version>1.0.12</version>
+  <size>336x480</size>
+  <author>小米</author>
+  <pkgName>120917384229</pkgName>
+  <imageFormat>indexed8</imageFormat>
+  <imageCompression>true</imageCompression>
+  <editorVersion>1.0.0</editorVersion>
+  <webVersionCreatedAt>2024-04-22T09:55:39+08:00</webVersionCreatedAt>
+  <editorVersionCreatedAt>2.1.2</editorVersionCreatedAt>
+  <webVersionUpdatedAt>2026-01-27T10:41:26+08:00</webVersionUpdatedAt>
+  <editorVersionUpdatedAt>1.0.0</editorVersionUpdatedAt>
+  <_recolorEnable>false</_recolorEnable>
+  <temperatureUnitType>system</temperatureUnitType>
+  <_id>2b612f2f409f1fcce12e84839e2b519b</_id>
+  <imageArrayRamMethod>whole</imageArrayRamMethod>
+  <watchfaceType>normal</watchfaceType>
+  <watchOS>vela</watchOS>
+  <webVersionExportAt>2026-01-27T10:41:26+08:00</webVersionExportAt>
+  <editorVersionExportAt>1.0.0</editorVersionExportAt>
+  <merchantId />
+  <introduce />
+</watch>
