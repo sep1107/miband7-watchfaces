@@ -4,10 +4,12 @@ try {
     const module = app.current;
     const logger = Logger.getLogger('time-flies-band10-pro');
 
-    const SCREEN_WIDTH = 400;
+    const SCREEN_WIDTH = 336;
     const SCREEN_HEIGHT = 480;
-    const PANEL_X = 198;
-    const PANEL_PADDING = 22;
+    const PANEL_X = 188;
+    const PANEL_PADDING = 12;
+    const PANEL_CONTENT_WIDTH = SCREEN_WIDTH - PANEL_X - PANEL_PADDING - 8;
+    const TARGET_PROFILE = 'compat-336x480';
     const ASSET_ROOT = 'assets/';
 
     const TIME_DIGITS = Array.from(
@@ -227,11 +229,11 @@ try {
         hmUI.createWidget(hmUI.widget.TEXT, {
           x: PANEL_X + PANEL_PADDING,
           y: 20,
-          w: 160,
+          w: PANEL_CONTENT_WIDTH,
           h: 32,
           text: 'TIME FLIES',
           color: '0xFFFFFFFF',
-          text_size: 20,
+          text_size: 18,
           align_h: hmUI.align.LEFT,
           align_v: hmUI.align.CENTER_V,
           show_level: hmUI.show_level.ONLY_NORMAL
@@ -240,11 +242,11 @@ try {
         dateText = hmUI.createWidget(hmUI.widget.TEXT, {
           x: PANEL_X + PANEL_PADDING,
           y: 62,
-          w: 160,
+          w: PANEL_CONTENT_WIDTH,
           h: 28,
           text: '----.--.--',
           color: '0xFFD7D7D7',
-          text_size: 18,
+          text_size: 15,
           align_h: hmUI.align.LEFT,
           align_v: hmUI.align.CENTER_V,
           show_level: hmUI.show_level.ONLY_NORMAL
@@ -260,7 +262,7 @@ try {
         hmUI.createWidget(hmUI.widget.TEXT, {
           x: PANEL_X + PANEL_PADDING,
           y: 136,
-          w: 160,
+          w: PANEL_CONTENT_WIDTH,
           h: 22,
           text: 'WEATHER',
           color: '0xFF777777',
@@ -276,13 +278,13 @@ try {
           show_level: hmUI.show_level.ONLY_NORMAL
         });
         weatherText = hmUI.createWidget(hmUI.widget.TEXT, {
-          x: PANEL_X + PANEL_PADDING + 58,
+          x: PANEL_X + PANEL_PADDING + 52,
           y: 166,
-          w: 104,
+          w: PANEL_CONTENT_WIDTH - 52,
           h: 34,
           text: '--° / --°',
           color: '0xFFFFFFFF',
-          text_size: 18,
+          text_size: 15,
           align_h: hmUI.align.LEFT,
           align_v: hmUI.align.CENTER_V,
           show_level: hmUI.show_level.ONLY_NORMAL
@@ -291,7 +293,7 @@ try {
         hmUI.createWidget(hmUI.widget.TEXT, {
           x: PANEL_X + PANEL_PADDING,
           y: 222,
-          w: 160,
+          w: PANEL_CONTENT_WIDTH,
           h: 22,
           text: 'STEPS',
           color: '0xFF777777',
@@ -303,11 +305,11 @@ try {
         stepsText = hmUI.createWidget(hmUI.widget.TEXT, {
           x: PANEL_X + PANEL_PADDING,
           y: 244,
-          w: 160,
+          w: PANEL_CONTENT_WIDTH,
           h: 36,
           text: '0',
           color: '0xFFFFFFFF',
-          text_size: 27,
+          text_size: 24,
           align_h: hmUI.align.LEFT,
           align_v: hmUI.align.CENTER_V,
           show_level: hmUI.show_level.ONLY_NORMAL
@@ -316,7 +318,7 @@ try {
         hmUI.createWidget(hmUI.widget.TEXT, {
           x: PANEL_X + PANEL_PADDING,
           y: 294,
-          w: 160,
+          w: PANEL_CONTENT_WIDTH,
           h: 22,
           text: 'HEART',
           color: '0xFF777777',
@@ -328,11 +330,11 @@ try {
         heartText = hmUI.createWidget(hmUI.widget.TEXT, {
           x: PANEL_X + PANEL_PADDING,
           y: 316,
-          w: 160,
+          w: PANEL_CONTENT_WIDTH,
           h: 36,
           text: '--',
           color: '0xFFFFFFFF',
-          text_size: 27,
+          text_size: 24,
           align_h: hmUI.align.LEFT,
           align_v: hmUI.align.CENTER_V,
           show_level: hmUI.show_level.ONLY_NORMAL
@@ -341,7 +343,7 @@ try {
         hmUI.createWidget(hmUI.widget.TEXT, {
           x: PANEL_X + PANEL_PADDING,
           y: 366,
-          w: 160,
+          w: PANEL_CONTENT_WIDTH,
           h: 22,
           text: 'BATTERY',
           color: '0xFF777777',
@@ -357,13 +359,13 @@ try {
           show_level: hmUI.show_level.ONLY_NORMAL
         });
         batteryText = hmUI.createWidget(hmUI.widget.TEXT, {
-          x: PANEL_X + PANEL_PADDING + 60,
+          x: PANEL_X + PANEL_PADDING + 56,
           y: 388,
-          w: 92,
+          w: PANEL_CONTENT_WIDTH - 56,
           h: 38,
           text: '--%',
           color: '0xFFFFFFFF',
-          text_size: 21,
+          text_size: 18,
           align_h: hmUI.align.LEFT,
           align_v: hmUI.align.CENTER_V,
           show_level: hmUI.show_level.ONLY_NORMAL
@@ -372,11 +374,11 @@ try {
         festivalText = hmUI.createWidget(hmUI.widget.TEXT, {
           x: PANEL_X + PANEL_PADDING,
           y: 440,
-          w: 160,
+          w: PANEL_CONTENT_WIDTH,
           h: 28,
           text: '',
           color: '0xFFD5D4D4',
-          text_size: 16,
+          text_size: 14,
           align_h: hmUI.align.LEFT,
           align_v: hmUI.align.CENTER_V,
           show_level: hmUI.show_level.ONLY_NORMAL
@@ -403,7 +405,7 @@ try {
       },
 
       onInit() {
-        logger.log(`provisional target canvas ${SCREEN_WIDTH}x${SCREEN_HEIGHT}`);
+        logger.log(`target profile ${TARGET_PROFILE} canvas ${SCREEN_WIDTH}x${SCREEN_HEIGHT}`);
       },
 
       build() {
