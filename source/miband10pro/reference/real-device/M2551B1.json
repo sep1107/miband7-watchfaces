@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "device": {
+    "marketingName": "Xiaomi Smart Band 10 Pro",
+    "localizedName": "小米手环10 Pro",
+    "modelNumber": "M2551B1",
+    "operatingSystem": "Xiaomi HyperOS",
+    "osVersion": "3.101.030"
+  },
+  "evidence": {
+    "date": "2026-07-11",
+    "source": "user-provided real-device photographs",
+    "photosCommitted": false,
+    "privacyNote": "Bluetooth address, serial number and account data are not stored"
+  },
+  "displayObservation": {
+    "orientation": "portrait",
+    "formFactor": "wide rectangular band display with rounded corners",
+    "exactPixelResolution": null,
+    "resolutionStatus": "not determined from photographs"
+  },
+  "watchfaceCapabilitiesObserved": [
+    "air quality",
+    "weather condition and temperature",
+    "battery percentage",
+    "12-hour time and AM/PM",
+    "lunar date",
+    "Gregorian date and weekday",
+    "health-cycle information",
+    "alarm shortcut",
+    "Alipay shortcut",
+    "settings shortcut",
+    "sleep shortcut",
+    "calories",
+    "distance",
+    "steps",
+    "heart rate",
+    "goal progress"
+  ],
+  "compatibilityStatus": {
+    "deviceExistsAndModelVerified": true,
+    "packageFormatVerified": false,
+    "deviceSourceVerified": false,
+    "installableCustomWatchfaceVerified": false
+  }
+}
