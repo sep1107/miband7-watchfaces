@@ -30,12 +30,10 @@ def localized_probe() -> bytes:
 
 
 def assert_ios_probe_is_read_only() -> None:
-    swift_path = (
-        Path(__file__).resolve().parents[1]
-        / "ios-probe"
-        / "P67ReadOnlyProbe.swift"
-    )
-    swift = swift_path.read_text(encoding="utf-8")
+    probe_dir = Path(__file__).resolve().parents[1] / "ios-probe"
+    swift_files = sorted(probe_dir.glob("*.swift"))
+    assert swift_files, "no iPhone probe Swift sources found"
+    swift = "\n".join(path.read_text(encoding="utf-8") for path in swift_files)
 
     required = [
         "discoverServices",
@@ -44,6 +42,7 @@ def assert_ios_probe_is_read_only() -> None:
         "0000FE95",
         "0000005E",
         "0000005F",
+        "Share JSON",
     ]
     for token in required:
         assert token in swift, f"missing iPhone probe token: {token}"
@@ -88,7 +87,7 @@ def main() -> int:
     assert "localized name table is outside the file" in invalid_i18n["errors"]
 
     assert_ios_probe_is_read_only()
-    print("P67 Gadgetbridge checker and iPhone read-only guard passed")
+    print("P67 Gadgetbridge checker and all iPhone read-only guards passed")
     return 0
 
 
