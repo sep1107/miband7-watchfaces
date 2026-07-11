@@ -45,23 +45,23 @@ class Canvas:
             if e2>=dy: err+=dy; x0+=sx
             if e2<=dx: err+=dx; y0+=sy
     def paste(self,im:Indexed,x:int,y:int,color_index:int):
-        # Foreground images use index 0 transparent and nonzero opaque.
         for yy in range(im.height):
             for xx in range(im.width):
                 if im.indices[yy*im.width+xx]: self.set(x+xx,y+yy,color_index)
     def indexed(self)->Indexed:
         pal=bytearray()
-        for color in self.colors:
-            pal.extend(color)
+        for color in self.colors: pal.extend(color)
         pal.extend(b'\0'*(1024-len(pal)))
         return Indexed(self.w,self.h,bytes(pal),bytes(self.p))
 
 FONT={
 'A':['01110','10001','10001','11111','10001','10001','10001'],
+'B':['11110','10001','10001','11110','10001','10001','11110'],
 'C':['01111','10000','10000','10000','10000','10000','01111'],
 'D':['11110','10001','10001','10001','10001','10001','11110'],
 'E':['11111','10000','10000','11110','10000','10000','11111'],
 'F':['11111','10000','10000','11110','10000','10000','10000'],
+'H':['10001','10001','10001','11111','10001','10001','10001'],
 'I':['11111','00100','00100','00100','00100','00100','11111'],
 'K':['10001','10010','10100','11000','10100','10010','10001'],
 'L':['10000','10000','10000','10000','10000','10000','11111'],
@@ -69,9 +69,11 @@ FONT={
 'N':['10001','11001','10101','10011','10001','10001','10001'],
 'O':['01110','10001','10001','10001','10001','10001','01110'],
 'P':['11110','10001','10001','11110','10000','10000','10000'],
+'R':['11110','10001','10001','11110','10100','10010','10001'],
 'S':['01111','10000','10000','01110','00001','00001','11110'],
 'T':['11111','00100','00100','00100','00100','00100','00100'],
 'U':['10001','10001','10001','10001','10001','10001','01110'],
+'W':['10001','10001','10001','10101','10101','11011','10001'],
 'Y':['10001','10001','01010','00100','00100','00100','00100'],
 ' ':['00000']*7,
 }
@@ -84,20 +86,11 @@ def text(c:Canvas,s:str,x:int,y:int,scale:int,color:int,spacing:int=1):
                 if v=='1': c.rect(x+gx*scale,y+gy*scale,x+(gx+1)*scale,y+(gy+1)*scale,color)
         x+=(5+spacing)*scale
 
-def transparent_palette(color:RGBA=WHITE)->bytes:
-    pal=bytearray((0,0,0,0)); pal.extend(color); pal.extend(b'\0'*(1024-8)); return bytes(pal)
-
-SEGMENTS={
-'0':'abcdef','1':'bc','2':'abdeg','3':'abcdg','4':'bcfg','5':'acdfg','6':'acdefg','7':'abc','8':'abcdefg','9':'abcdfg'
-}
+SEGMENTS={'0':'abcdef','1':'bc','2':'abdeg','3':'abcdg','4':'bcfg','5':'acdfg','6':'acdefg','7':'abc','8':'abcdefg','9':'abcdfg'}
 
 def seven_digit(w:int,h:int,t:int,digit:str)->Indexed:
     c=Canvas(w,h,[(0,0,0,0),WHITE],0); m=max(2,t//2); mid=h//2
-    seg={
-      'a':(m+t,m,w-m-t,m+t),'g':(m+t,mid-t//2,w-m-t,mid+(t+1)//2),'d':(m+t,h-m-t,w-m-t,h-m),
-      'f':(m,m+t,m+t,mid-t//2),'b':(w-m-t,m+t,w-m,mid-t//2),
-      'e':(m,mid+t//2,m+t,h-m-t),'c':(w-m-t,mid+t//2,w-m,h-m-t),
-    }
+    seg={'a':(m+t,m,w-m-t,m+t),'g':(m+t,mid-t//2,w-m-t,mid+(t+1)//2),'d':(m+t,h-m-t,w-m-t,h-m),'f':(m,m+t,m+t,mid-t//2),'b':(w-m-t,m+t,w-m,mid-t//2),'e':(m,mid+t//2,m+t,h-m-t),'c':(w-m-t,mid+t//2,w-m,h-m-t)}
     for key in SEGMENTS[digit]: c.rounded(*seg[key],max(1,t//3),1)
     return c.indexed()
 
@@ -109,24 +102,32 @@ def colon()->Indexed:
 def slash()->Indexed:
     c=Canvas(24,40,[(0,0,0,0),WHITE],0); c.line(17,4,7,35,1,4); return c.indexed()
 
+def percent()->Indexed:
+    c=Canvas(14,36,[(0,0,0,0),WHITE],0); c.rounded(1,4,6,9,2,1); c.rounded(8,27,13,32,2,1); c.line(11,4,3,32,1,2); return c.indexed()
+
+def weekday_set()->list[Indexed]:
+    result=[]
+    for label in ('MON','TUE','WED','THU','FRI','SAT','SUN'):
+        c=Canvas(48,16,[(0,0,0,0),WHITE],0); text(c,label,2,4,1,1,1); result.append(c.indexed())
+    return result
+
 def background()->Indexed:
-    colors=[BG,PANEL,GRID,WHITE,MUTED,ACCENT,ORANGE]
-    c=Canvas(*CANVAS,colors,0)
+    colors=[BG,PANEL,GRID,WHITE,MUTED,ACCENT,ORANGE]; c=Canvas(*CANVAS,colors,0)
     for x in range(0,337,24): c.rect(x,0,x+1,480,1)
     c.rounded(14,22,322,226,22,1,2,2); c.rounded(14,244,322,326,20,1,2,2); c.rounded(14,344,322,456,20,1,2,2)
-    text(c,'TIME FLIES',28,38,2,5,1); text(c,'MAKE TODAY COUNT',28,207,1,4,1); text(c,'DATE',28,258,1,4,1); text(c,'STEPS',28,358,1,4,1)
-    c.rect(28,390,308,392,2); c.rounded(283,38,301,56,9,6)
+    text(c,'TIME FLIES',28,38,2,5,1); text(c,'MAKE TODAY COUNT',28,207,1,4,1); text(c,'DATE',28,258,1,4,1); text(c,'STEPS',28,358,1,4,1); text(c,'BATTERY',212,358,1,4,1)
+    c.rect(28,390,308,392,2); c.rect(190,356,192,442,2); c.rounded(283,38,301,56,9,6)
     return c.indexed()
 
-def preview(hour='10',minute='09',month='07',day='11',steps='07812')->Indexed:
+def preview(hour='10',minute='09',month='07',day='11',steps='7812',battery='87',weekday=4)->Indexed:
     bg=background(); c=Canvas(bg.width,bg.height,[BG,PANEL,GRID,WHITE,MUTED,ACCENT,ORANGE],0); c.p[:]=bg.indices
-    big=digit_set(60,96,10); small=digit_set(26,40,4); sd=digit_set(24,36,4)
-    def add(chars,imgs,x,y,gap=0):
-        for ch in chars: c.paste(imgs[int(ch)],x,y,3); x+=imgs[0].width+gap
+    big=digit_set(60,96,10); small=digit_set(26,40,4); numbers=digit_set(24,36,4)
+    def add(chars,images,x,y,gap=0):
+        for ch in chars: c.paste(images[int(ch)],x,y,3); x+=images[0].width+gap
     add(hour,big,28,84); c.paste(colon(),151,84,3); add(minute,big,184,84)
-    add(month,small,92,264); c.paste(slash(),150,264,3); add(day,small,176,264)
-    add(steps,sd,102,399,2)
+    add(month,small,58,264); c.paste(slash(),116,264,3); add(day,small,142,264); c.paste(weekday_set()[weekday],244,276,3)
+    add(steps,numbers,38,399,2); add(battery,numbers,242,399); c.paste(percent(),294,399,3)
     return c.indexed()
 
 def build_assets():
-    return {'background':background(),'colon':colon(),'slash':slash(),'time_digits':digit_set(60,96,10),'date_digits':digit_set(26,40,4),'step_digits':digit_set(24,36,4),'preview':preview()}
+    return {'background':background(),'colon':colon(),'slash':slash(),'percent':percent(),'time_digits':digit_set(60,96,10),'date_digits':digit_set(26,40,4),'step_digits':digit_set(24,36,4),'weekdays':weekday_set(),'preview':preview()}
