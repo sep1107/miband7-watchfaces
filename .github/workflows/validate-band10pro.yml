@@ -50,6 +50,8 @@ jobs:
           source/miband10pro/tools/test_p67_resource_header.py
           source/miband10pro/tools/inspect_p67_binary.py
           source/miband10pro/tools/test_p67_binary_layout.py
+          source/miband10pro/tools/p67_image_codec.py
+          source/miband10pro/tools/test_p67_image_codec.py
 
       - name: Validate source checkout
         run: >-
@@ -102,6 +104,10 @@ jobs:
       - name: Test P67 extended theme and record tables
         run: >-
           python source/miband10pro/tools/test_p67_binary_layout.py
+
+      - name: Test P67 indexed8 image codec
+        run: >-
+          python source/miband10pro/tools/test_p67_image_codec.py
 
       - name: Apply P67 geometry to legacy visual prototype
         shell: bash
