@@ -36,7 +36,7 @@ def main() -> int:
     assert layout_uid == 0
     assert layout_flags == 0
     assert layout_length == 16
-    assert image_uid >> 24 == 2
+    assert image_uid == 0x02000001
     assert image_flags == 0
 
     ref_uid, x, y, parameter, reserved1, reserved2 = struct.unpack_from(
